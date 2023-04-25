@@ -1,3 +1,4 @@
+import 'package:firerest/home-layout/home-layout.dart';
 import 'package:firerest/register-file/register-cubit.dart';
 import 'package:firerest/register-file/register-states.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/submit-button.dart';
 import '../widgets/text-form-feild.dart';
+
 
 class RegisterScreen extends StatelessWidget {
   var emailController = TextEditingController();
@@ -20,7 +22,11 @@ class RegisterScreen extends StatelessWidget {
     return BlocProvider(
       create: (context)=> RegisterCubit(),
       child: BlocConsumer<RegisterCubit,RegisterStates>(
-        listener:(context,state){},
+        listener:(context,state){
+          if (state is RegisterCreateUserSuccessState){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeLayout()));
+          }
+        },
         builder: (context,state){
           var cubit = RegisterCubit.get(context);
           return Scaffold(
@@ -100,8 +106,13 @@ class RegisterScreen extends StatelessWidget {
                           SubmitButton(callBack:(){
                               print("object");
                               if(formKey.currentState!.validate()){
-                                cubit.userRegister( email: emailController.text,
-                                    password: passwordController.text);
+                                cubit.userRegister(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  phone: phoneController.text,
+                                  name: nameController.text
+
+                                );
                               }
                           }, text: "Sign Up")
                         ]),
