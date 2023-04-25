@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "599970022898",
+    "project_id": "fire-rest-b99fe",
+    "storage_bucket": "fire-rest-b99fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599970022898:android:e9b02048b8a045137cd76b",
+        "android_client_info": {
+          "package_name": "com.example.firerest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599970022898-ncd19s27871og68ng17b4coqn0g9avlv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVyY96DAojp2s9gn6qli3StC0N_ii7yLI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599970022898-ncd19s27871og68ng17b4coqn0g9avlv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
