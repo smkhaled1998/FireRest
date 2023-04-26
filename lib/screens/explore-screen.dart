@@ -30,9 +30,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children:  [
-             CustomAppBar(
-              leftIcon: Icons.arrow_back_ios_new,
-              rightIcon: Icons.search_rounded,),
+             // CustomAppBar(
+             //  leftIcon: Icons.arrow_back_ios_new,
+             //  rightIcon: Icons.search_rounded,),
             RestaurantInfo(),
             const SizedBox(height: 10,),
             FoodList(
@@ -66,12 +66,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     activeDotColor: kPrimaryColor,
                       expansionFactor: 3, dotWidth: 10, dotHeight: 10)),
             ),
+            SizedBox(height: 10,)
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 50,
-      ),
+
     );
   }
 }

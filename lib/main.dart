@@ -1,5 +1,6 @@
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firerest/home-layout/home-layout.dart';
 import 'package:firerest/shared/bloc-observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,6 +34,6 @@ class MyApp extends StatelessWidget {
           )
         ),
         debugShowCheckedModeBanner: false,
-      home:  LoginScreen());
+      home:  HomeLayout());
   }
 }

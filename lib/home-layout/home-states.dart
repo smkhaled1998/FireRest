@@ -1,7 +1,11 @@
 
-abstract class HomeLayoutStates{}
+abstract class HomeStates{}
 
-class HomeInitialState extends HomeLayoutStates{}
+class HomeInitialState extends HomeStates{}
 
 
-class HomeChangeBottomNavBarState extends HomeLayoutStates{}
+class HomeChangeBottomNavBarState extends HomeStates{}
+
+class HomeGettingCategoryLoadingState extends HomeStates{}
+class HomeGettingCategorySuccessState extends HomeStates{}
+class HomeGettingCategoryErrorState extends HomeStates{}
