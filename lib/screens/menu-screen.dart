@@ -170,6 +170,10 @@ var categoryController =TextEditingController();
                                   ),
                                 ],
                               ),
+                              MaterialButton(
+                                color: AppColor.mainColor,
+                                onPressed: (){},
+                                child: Text("Submit"),)
                             ],
                           ),
                         ),
