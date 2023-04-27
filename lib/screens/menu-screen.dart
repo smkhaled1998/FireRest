@@ -10,6 +10,7 @@ class MenuScreen extends StatelessWidget {
    MenuScreen({Key? key}) : super(key: key);
 
 var categoryController =TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit,HomeStates>(
@@ -108,14 +109,15 @@ var categoryController =TextEditingController();
               callBack: (){
                 showModalBottomSheet(
                     isScrollControlled: true,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.vertical(top: Radius.circular(20))
                     ),
                     context: context,
                     builder: (context){
                       return Padding(
-                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)/2,
+                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)/3,
                         child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10),
                           height: 400,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
@@ -124,14 +126,33 @@ var categoryController =TextEditingController();
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
+                              SizedBox(height: 15,),
                               Row(
                                 children: [
-                                  SizedBox(
-                                    width: 80,
-                                    height: 80,
-                                    child: Image.asset("assets/logo part 1.png",fit: BoxFit.fitHeight),
-                                  ),
+                                  Stack(
+                                   children: [
 
+                                     SizedBox(
+                                       width: 100,
+                                       height: 100,
+                                       child: Image.asset("assets/logo part 1.png",fit: BoxFit.fitHeight),
+                                     ),
+                                     Align(
+                                       alignment: Alignment.topRight,
+                                       child: CircleAvatar(
+                                           radius: 20,
+                                           backgroundColor: Colors.transparent,
+                                           child: IconButton(
+                                               onPressed: () {
+                                                 cubit.pickCategoryImage();
+                                                 print("object");
+                                               },
+                                               icon: const Icon (
+                                                 Icons.camera_alt, size: 15,))),
+                                     ),
+
+                                   ],
+                                  ),
                                   Expanded(
                                     child: Container(
                                         margin: EdgeInsets.symmetric(horizontal: 7),
