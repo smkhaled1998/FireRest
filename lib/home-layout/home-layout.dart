@@ -9,7 +9,7 @@ class HomeLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create:(context)=>HomeCubit()..getCategory(),
+      create:(context)=>HomeCubit(),
       child: BlocConsumer<HomeCubit,HomeStates>(
         listener: (context,state){},
         builder: (context,state){
