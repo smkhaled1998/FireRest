@@ -1,5 +1,6 @@
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firerest/home-layout/home-cubit.dart';
 import 'package:firerest/home-layout/home-layout.dart';
 import 'package:firerest/shared/bloc-observer.dart';
 import 'package:flutter/material.dart';
@@ -25,15 +26,18 @@ class MyApp extends StatelessWidget {
       statusBarIconBrightness: Brightness.dark,
 
     ));
-    return MaterialApp(
-        theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-            systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: Colors.transparent
+    return BlocProvider(
+      create: (context)=>HomeCubit()..getCategory(),
+      child: MaterialApp(
+          theme: ThemeData(
+            appBarTheme: const AppBarTheme(
+              systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: Colors.transparent
+              )
             )
-          )
-        ),
-        debugShowCheckedModeBanner: false,
-      home:  HomeLayout());
+          ),
+          debugShowCheckedModeBanner: false,
+        home:  HomeLayout()),
+    );
   }
 }

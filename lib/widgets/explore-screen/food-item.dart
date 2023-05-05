@@ -18,6 +18,7 @@ const FoodItem (this.food,{super.key, this.callback});
       child: Row(
         children: [
           SizedBox(
+
             width: 110,
             height: 110,
            child: Image.asset("${food.imgUrl}",fit: BoxFit.fitHeight),
