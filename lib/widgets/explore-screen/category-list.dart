@@ -1,3 +1,5 @@
+import 'package:firerest/category-file/category-cubit.dart';
+import 'package:firerest/category-file/category-states.dart';
 import 'package:firerest/home-layout/home-cubit.dart';
 import 'package:firerest/home-layout/home-states.dart';
 
@@ -17,11 +19,11 @@ class FoodList extends StatelessWidget {
   Widget build(BuildContext context) {
     final category =restaurant.menu!.keys.toList();
     return BlocProvider(
-      create: (context)=>HomeCubit(),
-      child: BlocConsumer<HomeCubit,HomeStates>(
+      create: (context)=>CategoryCubit(),
+      child: BlocConsumer<CategoryCubit,CategoryStates>(
         listener: (context,state){},
         builder: (context,state){
-          var cubit =HomeCubit.get(context);
+          var cubit =CategoryCubit.get(context);
           return Container(
             height: 100,
             margin: const EdgeInsets.only(left: 15),

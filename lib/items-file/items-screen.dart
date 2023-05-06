@@ -1,8 +1,9 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:firerest/home-layout/home-cubit.dart';
-import 'package:firerest/home-layout/home-states.dart';
+
+import 'package:firerest/items-file/item-cubit.dart';
+import 'package:firerest/items-file/item-states.dart';
+import 'package:firerest/shared/const.dart';
 import 'package:firerest/styles/app-colors.dart';
-import 'package:firerest/widgets/bottom-sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -14,67 +15,70 @@ class ItemsScreen extends StatelessWidget {
   var  itemUpdatedController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit,HomeStates>(
-      listener: (context,state){},
-      builder: (context,state){
-        var cubit =HomeCubit.get(context);
-        return Scaffold(
-          body:
-          SafeArea(
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Categories",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
-                      MaterialButton(
-                        color: AppColor.mainColor,
-                        child:const Text ("Add new category"),
-                        onPressed: (){
-                          showModalBottomSheet(
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(top: Radius.circular(20))
-                              ),
-                              context: context,
-                              builder: (context){
-                                return BuildBottomSheet(categoryController: itemController,);
-                              }).then((value) {
-                            // cubit.categoryImg = null;
-                            // itemController.text="";
-                          });
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10,),
-                Expanded(
-                  child: ConditionalBuilder(
-                    condition: state is HomeGettingCategoryLoadingState,
-                    builder: (context)=>const  Center(child: CircularProgressIndicator()),
-                    fallback: (context)=> RefreshIndicator (
-                      onRefresh: ()  async{},
-                      child:itemList(context),
+    return BlocProvider(
+      create: (context)=>ItemsCubit()..getItems(categoryId: categoryId),
+      child: BlocConsumer<ItemsCubit,ItemsStates>(
+        listener: (context,state){},
+        builder: (context,state){
+          var cubit =ItemsCubit.get(context);
+          return Scaffold(
+            body:
+            SafeArea(
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Items",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
+                        MaterialButton(
+                          color: AppColor.mainColor,
+                          child:const Text ("Add new item"),
+                          onPressed: (){
+                            showModalBottomSheet(
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+                                ),
+                                context: context,
+                                builder: (context){
+                                  return buildBottomSheet();
+                                }).then((value) {
+                              cubit.itemImg = null;
+                              itemController.text="";
+                            });
+                          },
+                        )
+                      ],
                     ),
-
                   ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+                  const SizedBox(height: 10,),
+                  Expanded(
+                    child: ConditionalBuilder(
+                      condition: state is ItemsGettingDataSuccessState,
+                      builder: (context)=>RefreshIndicator (
+                        onRefresh: () async{},
+                        child:itemList(context),
+                      ),
+                      fallback: (context)=> const  Center(child: CircularProgressIndicator()),
 
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+
+      ),
     );
   }
 
   Widget itemList(context){
-    var cubit =HomeCubit.get(context);
+    var cubit =ItemsCubit.get(context);
     return  ListView.builder(
-      itemCount: cubit.categories.length,
+      itemCount: cubit.items.length,
       itemBuilder:(context,index)=> Slidable(
         startActionPane:ActionPane(
           motion: const StretchMotion(),
@@ -88,7 +92,7 @@ class ItemsScreen extends StatelessWidget {
                   ),
                   context: context,
                   builder: (context){
-                    return BuildBottomSheet(categoryController: itemUpdatedController);
+                    return buildBottomSheet();
                   }).then((value) {
                 // cubit.categoryImg = null;
                 // itemUpdatedController.text="";
@@ -98,9 +102,9 @@ class ItemsScreen extends StatelessWidget {
               foregroundColor: Colors.blue,
             ),
             SlidableAction(onPressed: (context){
-              cubit.removeCategory(
-                  categoryName: "${cubit.categories[index].name}"
-              );
+              // cubit.removeCategory(
+              //     categoryName: "${cubit.categories[index].name}"
+              // );
             },
               icon: Icons.delete,
               foregroundColor: Colors.red,
@@ -119,7 +123,8 @@ class ItemsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     image:  DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage("${cubit.categories[index].img}"),
+                      image:NetworkImage("${cubit.items[index].img}"),
+                      // NetworkImage("${cubit.categories[index].img}"),
                     )
                 ),
               ),
@@ -138,30 +143,44 @@ class ItemsScreen extends StatelessWidget {
                     child: Padding(
                       padding:
                       const EdgeInsets.only(left: 10, right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "${cubit.categories[index].name}",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              // Navigator.push(context, MaterialPageRoute(builder: (context)=> ItemsScreen()));
-                            },
-                            child: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                // color: AppColor.paraColor,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text("${cubit.items[index].name}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
-                              child: const Icon(Icons.arrow_circle_right_rounded),
-                            ),
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context)=> ItemsScreen()));
+                                },
+                                child: Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    // color: AppColor.paraColor,
+                                  ),
+                                  child: const Icon(Icons.arrow_circle_right_rounded),
+                                ),
 
-                          ) ],
+                              ) ],
+                          ),
+                          Text("${cubit.items[index].description}",
+                            style: const TextStyle(
+                                ),
+                          ),
+                          const SizedBox(height: 5,),
+                          Text("\$ ${cubit.items[index].price}",
+                            style: const TextStyle(
+                                ),
+                          ),
+
+                        ],
                       ),
                     ),
                   )
@@ -250,11 +269,11 @@ class ItemsScreen extends StatelessWidget {
     );
   }
 
-   Widget buildBottomSheet() {
-     return  BlocConsumer<HomeCubit,HomeStates>(
+  Widget buildBottomSheet() {
+     return  BlocConsumer<ItemsCubit,ItemsStates>(
          listener: (context,state){},
          builder: (context,state){
-           var cubit =HomeCubit.get(context);
+           var cubit =ItemsCubit.get(context);
            return Padding(
              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)/3,
              child: Container(
@@ -276,12 +295,15 @@ class ItemsScreen extends StatelessWidget {
                                child: SizedBox(
                                  width: 100,
                                  height: 100,
-                                 child: cubit.categoryImg == null
-                                     ? Image.asset(
+                                 child: Image.asset(
                                      "assets/logo part 1.png",
                                      fit: BoxFit.cover)
-                                     : Image(image: FileImage(
-                                   cubit.categoryImg!,),fit: BoxFit.cover,),
+                                 // cubit.categoryImg == null
+                                 //     ? Image.asset(
+                                 //     "assets/logo part 1.png",
+                                 //     fit: BoxFit.cover)
+                                 //     : Image(image: FileImage(
+                                 //   cubit.categoryImg!,),fit: BoxFit.cover,),
                                )
                            ),
                            Align(
@@ -291,8 +313,7 @@ class ItemsScreen extends StatelessWidget {
                                  backgroundColor: Colors.transparent,
                                  child: IconButton(
                                      onPressed: () {
-                                       cubit.pickCategoryImg();
-                                       print("object");
+                                       cubit.pickImg();
                                      },
                                      icon: const Icon (
                                        Icons.camera_alt, size: 15,))),
