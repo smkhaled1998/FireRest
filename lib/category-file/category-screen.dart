@@ -22,9 +22,7 @@ class MenuScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => CategoryCubit()..getCategory(),
       child: BlocConsumer<CategoryCubit, CategoryStates>(
-          listener: (context, state) {
-
-          },
+          listener: (context, state) {},
           builder: (context, state) {
             var cubit = CategoryCubit.get(context);
             return Scaffold(
@@ -101,7 +99,6 @@ class MenuScreen extends StatelessWidget {
                                                           child: IconButton(
                                                               onPressed: () {
                                                                 cubit.pickImg();
-                                                                print("object");
                                                               },
                                                               icon: const Icon (
                                                                 Icons
@@ -220,7 +217,6 @@ class MenuScreen extends StatelessWidget {
               //                               child: IconButton(
               //                                   onPressed: () {
               //                                     cubit.pickCategoryImg();
-              //                                     print("object");
               //                                   },
               //                                   icon: const Icon (
               //                                     Icons.camera_alt, size: 15,))),
@@ -280,7 +276,6 @@ class MenuScreen extends StatelessWidget {
               motion: const StretchMotion(),
               children: [
                 SlidableAction(onPressed: (context) {
-                  print("it is clicked");
                   showModalBottomSheet(
                       isScrollControlled: true,
                       shape: const RoundedRectangleBorder(
@@ -289,7 +284,7 @@ class MenuScreen extends StatelessWidget {
                       ),
                       context: context,
                       builder: (context) {
-                        return        Padding(
+                        return   Padding(
                           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)/3,
                           child: Container(
                             margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -311,9 +306,7 @@ class MenuScreen extends StatelessWidget {
                                               width: 100,
                                               height: 100,
                                               child: cubit.categoryImg == null
-                                                  ? Image.asset(
-                                                  "assets/logo part 1.png",
-                                                  fit: BoxFit.cover)
+                                                  ?  Image(image: NetworkImage("${cubit.categories[index].img}"),fit: BoxFit.cover,)
                                                   : Image(image: FileImage(
                                                 cubit.categoryImg!,),fit: BoxFit.cover,),
                                             )
@@ -326,7 +319,6 @@ class MenuScreen extends StatelessWidget {
                                               child: IconButton(
                                                   onPressed: () {
                                                     cubit.pickImg();
-                                                    print("object");
                                                   },
                                                   icon: const Icon (
                                                     Icons.camera_alt, size: 15,))),
@@ -341,9 +333,9 @@ class MenuScreen extends StatelessWidget {
                                               borderRadius:BorderRadius.circular(15)
                                           ),
                                           child: TextFormField(
-                                            controller: categoryController,
-                                            decoration: const InputDecoration(
-                                                hintText: "Category Name"
+                                            controller: categoryUpdatedController,
+                                            decoration:  InputDecoration(
+                                                hintText: "${cubit.categories[index].name}"
                                             ),
                                           )
                                       ),
@@ -353,9 +345,19 @@ class MenuScreen extends StatelessWidget {
                                 MaterialButton(
                                   color: AppColor.mainColor,
                                   onPressed: (){
-                                    cubit.uploadUpdatedCategoryImg(
-                                        categoryName:categoryController.text
-                                    );
+                                    if(categoryUpdatedController.text==""){
+                                      cubit.uploadUpdatedCategoryImg(
+                                        categoryName:"${cubit.categories[index].name}",
+                                        index: index,
+                                      );
+                                    }else {
+                                      cubit.uploadUpdatedCategoryImg(
+                                        categoryName:"${cubit.categories[index].name}",
+                                        categoryUpdatedName: categoryUpdatedController.text,
+                                        index: index,
+                                      );
+                                    }
+
                                     Navigator.pop(context);
                                   },
                                   child: const Text("Submit"),)
@@ -363,7 +365,7 @@ class MenuScreen extends StatelessWidget {
                             ),
                           ),
                         );
-                        ;
+
                       }).then((value) {
                     cubit.categoryImg = null;
                     categoryUpdatedController.text = "";
@@ -432,7 +434,6 @@ class MenuScreen extends StatelessWidget {
                                           )));
                                   categoryId =
                                   "${cubit.categories[index].name}";
-                                  print("${cubit.categories[index].name}");
                                 },
                                 child: Container(
                                   height: 30,
@@ -578,7 +579,6 @@ class MenuScreen extends StatelessWidget {
   //                         child: IconButton(
   //                             onPressed: () {
   //                               cubit.pickImg();
-  //                               print("object");
   //                             },
   //                             icon: const Icon (
   //                               Icons.camera_alt, size: 15,))),

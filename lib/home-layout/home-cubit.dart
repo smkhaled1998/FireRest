@@ -13,16 +13,15 @@ class HomeCubit extends Cubit<HomeStates> {
 
   static HomeCubit get(context) => BlocProvider.of(context);
   List<Widget> screen = [
-    ExploreScreen(),
+    const ExploreScreen(),
     MenuScreen(),
-    CartScreen(),
+    const CartScreen(),
   ];
 
   int currentIndex = 0;
 
   void changeBottomNavBar(int index) {
     currentIndex = index;
-
     emit(HomeChangeBottomNavBarState());
   }
 

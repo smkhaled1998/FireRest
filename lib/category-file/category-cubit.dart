@@ -132,46 +132,51 @@ class CategoryCubit extends Cubit<CategoryStates> {
         });
       }
       else {
-        // handle the case where there are multiple documents with the same name
-        // or no documents with the specified name
+       print("isueeeeeeeeeeeee");
       }
     });
-
   }
 
-  String? catImg; // this to inform that the image in not updated
+  // String? catImg; // this to inform that the image in not updated
   void uploadUpdatedCategoryImg({
     required String categoryName,
+    required int index,
     String? categoryUpdatedName,
-    String? categoryUpdatedImg,
   }){
     emit( CategoryUploadingUpdatedImgLoadingState());
-    // if (categoryUpdatedImg!="${categories.img}")
-    firebase_storage.FirebaseStorage.instance
-        .ref()
-        .child("category/${Uri.file(categoryImg!.path).pathSegments.last}")
-        .putFile(categoryImg!)
-        .then((value){
-      value.ref.getDownloadURL().then((value) {
-        emit(CategoryUploadingUpdatedImgSuccessState());
-        catImg=value;
-        updateCategory(
-            categoryName:categoryName,
-            categoryUpdatedImg: value,
-            categoryUpdatedName: categoryUpdatedName ?? "khaled"
-        );
+    if (categoryImg!=null){
+      firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child("category/${Uri.file(categoryImg!.path).pathSegments.last}")
+          .putFile(categoryImg!)
+          .then((value){
+        value.ref.getDownloadURL().then((value) {
+          emit(CategoryUploadingUpdatedImgSuccessState());
+          updateCategory(
+              categoryName:categoryName,
+              categoryUpdatedImg: value,
+              categoryUpdatedName: categoryUpdatedName ?? "${categories[index].name}"
+          );
 
-        emit(CategoryDownLoadingUpdatedImgUrlSuccessState());
-      })
-          .catchError((error){
-        print(error.toString());
-        emit(CategoryDownLoadingImgUrlErrorState());
+          emit(CategoryDownLoadingUpdatedImgUrlSuccessState());
+        })
+            .catchError((error){
+          print(error.toString());
+          emit(CategoryDownLoadingImgUrlErrorState());
+        });
+      }
+
+      ).catchError((error){
+        emit(CategoryUploadingUpdatedImgErrorState());
       });
+    }else {
+      updateCategory(
+          categoryName:categoryName,
+          categoryUpdatedName: categoryUpdatedName ?? "${categories[index].name}",
+          categoryUpdatedImg: "${categories[index].img}"
+      );
     }
 
-    ).catchError((error){
-      emit(CategoryUploadingUpdatedImgErrorState());
-    });
   }
 
 
