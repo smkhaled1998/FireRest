@@ -17,7 +17,7 @@ class ItemsModel{
       'name':name,
       'description':description,
       'price':price,
-      'category':category,
+      'categoryId':category,
     };
   }
 

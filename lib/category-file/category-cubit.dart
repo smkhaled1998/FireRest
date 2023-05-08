@@ -213,7 +213,6 @@ class CategoryCubit extends Cubit<CategoryStates> {
         // or no documents with the specified name
       }
     });
-
   }
 
 }

@@ -72,7 +72,8 @@ class MenuScreen extends StatelessWidget {
                                               children: [
                                                 Stack(
                                                   children: [
-                                                    ClipOval(
+                                                    ClipRRect(
+                                                        borderRadius: BorderRadius.circular(10),
                                                         child: SizedBox(
                                                           width: 100,
                                                           height: 100,
@@ -301,7 +302,8 @@ class MenuScreen extends StatelessWidget {
                                   children: [
                                     Stack(
                                       children: [
-                                        ClipOval(
+                                        ClipRRect(
+                                            borderRadius: BorderRadius.circular(10),
                                             child: SizedBox(
                                               width: 100,
                                               height: 100,
@@ -428,12 +430,8 @@ class MenuScreen extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) =>
-                                          ItemsScreen(
-                                          )));
-                                  categoryId =
-                                  "${cubit.categories[index].name}";
+                                  Navigator.push(context,MaterialPageRoute(builder: (context) => ItemsScreen()));
+                                  categoryId ="${cubit.categories[index].name}";
                                 },
                                 child: Container(
                                   height: 30,
@@ -456,165 +454,9 @@ class MenuScreen extends StatelessWidget {
               ),
             ),
           ),
-      //     Container(
-      //   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      //   height: 100,
-      //   decoration: BoxDecoration(
-      //     borderRadius: BorderRadius.circular(20),
-      //     color: Colors.white,
-      //   ),
-      //   child: Row(
-      //     children: [
-      //       Container(
-      //         decoration: BoxDecoration(
-      //           borderRadius: BorderRadius.circular(15),
-      //         ),
-      //         width: 110,
-      //         height: 110,
-      //         child: Image(
-      //           image: NetworkImage("${cubit.categories[index].img}"),
-      //           fit: BoxFit.cover,
-      //         ),
-      //       ),
-      //       Expanded(
-      //         child: Container(
-      //           padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-      //           height: 110,
-      //           child: Column(
-      //             crossAxisAlignment: CrossAxisAlignment.start,
-      //             mainAxisAlignment: MainAxisAlignment.center,
-      //             children: [
-      //               Row(
-      //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                 children: [
-      //                   Text(
-      //                     "${cubit.categories[index].name}",
-      //                     style: const TextStyle(fontWeight: FontWeight.bold),
-      //                   ),
-      //                   Column(
-      //                     children: [
-      //                       GestureDetector(
-      //                         onTap: () {},
-      //                         child: Container(
-      //                           height: 30,
-      //                           width: 30,
-      //                           decoration: BoxDecoration(
-      //                             borderRadius: BorderRadius.circular(5),
-      //                             color: AppColor.paraColor,
-      //                           ),
-      //                           child: const Icon(Icons.arrow_circle_right),
-      //                         ),
-      //                       ),
-      //                       const SizedBox(height: 5),
-      //                       GestureDetector(
-      //                         onTap: () {},
-      //                         child: Container(
-      //                           height: 30,
-      //                           width: 30,
-      //                           decoration: BoxDecoration(
-      //                             borderRadius: BorderRadius.circular(5),
-      //                             color: AppColor.paraColor,
-      //                           ),
-      //                           child: const Icon(Icons.edit),
-      //                         ),
-      //                       ),
-      //                     ],
-      //                   ),
-      //                 ],
-      //               ),
-      //               // const SizedBox(height: 5,),
-      //               // Text(("Food desception}")),
-      //               // const SizedBox(height: 10,),
-      //               // Text(("\$price"))
-      //             ],
-      //           ),
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // )
 
     );
   }
 
-  // Widget buildBottomSheet(context) {
-  //   var cubit = CategoryCubit.get(context);
-  //   return Padding(
-  //     padding: EdgeInsets.only(bottom: MediaQuery
-  //         .of(context)
-  //         .viewInsets
-  //         .bottom) / 3,
-  //     child: Container(
-  //       margin: const EdgeInsets.symmetric(horizontal: 10),
-  //       height: 400,
-  //       decoration: BoxDecoration(
-  //           borderRadius: BorderRadius.circular(20),
-  //           color: Colors.white
-  //       ),
-  //       child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.start,
-  //         children: [
-  //           const SizedBox(height: 15,),
-  //           Row(
-  //             children: [
-  //               Stack(
-  //                 children: [
-  //                   ClipOval(
-  //                       child: SizedBox(
-  //                         width: 100,
-  //                         height: 100,
-  //                         child: cubit.categoryImg == null
-  //                             ? Image.asset(
-  //                             "assets/logo part 1.png",
-  //                             fit: BoxFit.cover)
-  //                             : Image(image: FileImage(
-  //                           cubit.categoryImg!,), fit: BoxFit.cover,),
-  //                       )
-  //                   ),
-  //                   Align(
-  //                     alignment: Alignment.topRight,
-  //                     child: CircleAvatar(
-  //                         radius: 20,
-  //                         backgroundColor: Colors.transparent,
-  //                         child: IconButton(
-  //                             onPressed: () {
-  //                               cubit.pickImg();
-  //                             },
-  //                             icon: const Icon (
-  //                               Icons.camera_alt, size: 15,))),
-  //                   ),
-  //
-  //                 ],
-  //               ),
-  //               Expanded(
-  //                 child: Container(
-  //                     margin: const EdgeInsets.symmetric(horizontal: 7),
-  //                     decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.circular(15)
-  //                     ),
-  //                     child: TextFormField(
-  //                       controller: categoryController,
-  //                       decoration: const InputDecoration(
-  //                           hintText: "Category Name"
-  //                       ),
-  //                     )
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //           MaterialButton(
-  //             color: AppColor.mainColor,
-  //             onPressed: () {
-  //               cubit.uploadCategoryImg(
-  //                   categoryName: categoryController.text
-  //               );
-  //               Navigator.pop(context);
-  //             },
-  //             child: const Text("Submit"),)
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 }
 
