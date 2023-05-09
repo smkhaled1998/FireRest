@@ -9,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-
 class ItemsCubit extends Cubit<ItemsStates>{
 
   ItemsCubit():super(ItemsInitialState());
@@ -69,7 +68,7 @@ class ItemsCubit extends Cubit<ItemsStates>{
         img:itemImg,
         name:itemName,
         price: itemPrice,
-        description: itemDescription,
+        // description: itemDescription,
         category: categoryId
     );
     FirebaseFirestore.instance
@@ -150,17 +149,17 @@ class ItemsCubit extends Cubit<ItemsStates>{
 
   void updateItem({
     required String itemName,
-
     required String itemUpdatedName,
     // required String itemUpdatedDescription,
-    required String itemUpdatedPrice,
+     String? itemUpdatedPrice,
     String? categoryUpdatedImg,
   }){
     itemsModel =ItemsModel (
         name: itemUpdatedName,
         img: categoryUpdatedImg,
-      description: "Bla Bla Bla",
-      category: categoryId
+        price: itemUpdatedPrice,
+      // description: "Bla Bla Bla",
+        category: categoryId
     );
     FirebaseFirestore.instance
         .collection("items")
@@ -209,7 +208,7 @@ class ItemsCubit extends Cubit<ItemsStates>{
               itemName:itemName,
               categoryUpdatedImg: value,
               itemUpdatedName: itemUpdatedName ?? "${items[index].name}",
-              itemUpdatedPrice: itemUpdatedPrice?? "${items[index].price}",
+              itemUpdatedPrice: itemUpdatedPrice ?? "${items[index].price}",
             // itemUpdatedDescription:itemUpdatedDescription??" ${items[index].description}",
           );
 
@@ -225,11 +224,13 @@ class ItemsCubit extends Cubit<ItemsStates>{
         emit(ItemsUploadingUpdatedImgErrorState());
       });
     }else {
-      // updateItem(
-      //     itemName:itemName,
-      //     itemUpdatedName: itemUpdatedName ?? "${items[index].name}",
-      //     categoryUpdatedImg: "${items[index].img}"
-      // );
+      print("Items");
+      updateItem(
+          itemName:itemName,
+          itemUpdatedPrice: itemUpdatedPrice ?? "${items[index].price}",
+          itemUpdatedName: itemUpdatedName ?? "${items[index].name}",
+          categoryUpdatedImg: "${items[index].img}"
+      );
     }
 
   }
