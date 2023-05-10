@@ -1,3 +1,4 @@
+import 'package:firerest/widgets/page-view-body.dart';
 import 'package:flutter/material.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -5,7 +6,6 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../models/restaurant-model.dart';
 import '../styles/app-colors.dart';
 
-import '../widgets/custom-app-bar.dart';
 import '../widgets/explore-screen/category-list.dart';
 import '../widgets/explore-screen/food-list-view.dart';
 import '../widgets/explore-screen/rest-info.dart';
@@ -33,18 +33,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
              // CustomAppBar(
              //  leftIcon: Icons.arrow_back_ios_new,
              //  rightIcon: Icons.search_rounded,),
-            RestaurantInfo(),
+            PageViewBody(),
             const SizedBox(height: 10,),
-            FoodList(
-              restaurant: restaurant,
-              selected: selected,
-              callBack: (int index){
-                setState(() {
-                  selected=index;
-                });
-                pageController.jumpToPage(index);
-              },
-            ),
+            // FoodList(
+            //   restaurant: restaurant,
+            //   selected: selected,
+            //   callBack: (int index){
+            //     setState(() {
+            //       selected=index;
+            //     });
+            //     pageController.jumpToPage(index);
+            //   },
+            // ),
             Expanded(
               child: FoodListView(
                 selected:selected,
@@ -57,16 +57,16 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 pageController:pageController
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(left: 15,top: 10),
-              child: SmoothPageIndicator(
-                  controller: pageController,
-                  count: restaurant.menu!.keys.length,
-                  effect: const ExpandingDotsEffect(
-                    activeDotColor: kPrimaryColor,
-                      expansionFactor: 3, dotWidth: 10, dotHeight: 10)),
-            ),
-            SizedBox(height: 10,)
+            // Container(
+            //   margin: EdgeInsets.only(left: 15,top: 10),
+            //   child: SmoothPageIndicator(
+            //       controller: pageController,
+            //       count: restaurant.menu!.keys.length,
+            //       effect: const ExpandingDotsEffect(
+            //         activeDotColor: kPrimaryColor,
+            //           expansionFactor: 3, dotWidth: 10, dotHeight: 10)),
+            // ),
+            // SizedBox(height: 10,)
           ],
         ),
       ),

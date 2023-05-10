@@ -1,9 +1,9 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firerest/category-file/category-cubit.dart';
-import 'package:firerest/home-layout/home-cubit.dart';
-import 'package:firerest/home-layout/home-layout.dart';
+
 import 'package:firerest/items-file/item-cubit.dart';
+import 'package:firerest/screens/home-layout.dart';
 import 'package:firerest/shared/bloc-observer.dart';
 import 'package:firerest/shared/cashe-helper.dart';
 import 'package:firerest/shared/const.dart';
@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
     ));
     return MultiBlocProvider(
       providers: [
-       BlocProvider(create: (context)=>HomeCubit()),
        BlocProvider(create: (context)=>ItemsCubit()),
        BlocProvider(create: (context)=>CategoryCubit()),
       ],

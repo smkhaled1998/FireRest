@@ -1,4 +1,4 @@
-import 'package:firerest/home-layout/home-layout.dart';
+import 'package:firerest/screens/home-layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
       child: BlocConsumer<LoginCubit,LoginState>(
         listener: (context,state){
           if (state is LoginSuccessState){
-            Navigator.push(context,MaterialPageRoute(builder: (context)=>HomeLayout()));
+            Navigator.push(context,MaterialPageRoute(builder: (context)=>const HomeLayout()));
           }
         },
         builder: (context,state){

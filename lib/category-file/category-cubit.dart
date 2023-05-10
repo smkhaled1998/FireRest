@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firerest/category-file/category-screen.dart';
 
 import 'package:firerest/category-file/category-states.dart';
 import 'package:firerest/models/category-model.dart';
+import 'package:firerest/screens/cart-screen.dart';
+import 'package:firerest/screens/explore-screen.dart';
+import 'package:flutter/material.dart';
 
 
 
@@ -13,8 +17,37 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class CategoryCubit extends Cubit<CategoryStates> {
-  CategoryCubit() : super(CategoryInitialState());
 
+  final PageController pageController = PageController();
+  double currentPageValue = 0;
+
+  List<Widget> screen = [
+    const ExploreScreen(),
+    MenuScreen(),
+    const CartScreen(),
+  ];
+
+  int currentIndex = 0;
+  void changeBottomNavBar(int index) {
+    currentIndex = index;
+    emit(CategoryChangeBottomNavBarState());
+  }
+
+
+
+  CategoryCubit() : super(CategoryInitialState());
+  // {
+  //   pageController.addListener(() {
+  //     currentPageValue = pageController.page!;
+  //     emit(CategoryInitiatePageViewState());
+  //   });
+  // }
+  //
+  // @override
+  // Future<void> close() {
+  //   pageController.dispose();
+  //   return super.close();
+  // }
   static CategoryCubit get(context) => BlocProvider.of(context);
 
   List<CategoryModel> categories = [];
