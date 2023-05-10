@@ -5,7 +5,6 @@ import '../../reusable-widgets/big-text.dart';
 import '../../reusable-widgets/expandable-text.dart';
 import '../../reusable-widgets/icon-app.dart';
 import '../../styles/app-colors.dart';
-import '../custom-app-bar.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({Key? key}) : super(key: key);

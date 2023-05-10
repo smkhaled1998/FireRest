@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
        BlocProvider(create: (context)=>ItemsCubit()),
-       BlocProvider(create: (context)=>CategoryCubit()),
+       BlocProvider(create: (context)=>CategoryCubit()..getCategory()),
       ],
       child: MaterialApp(
           theme: ThemeData(

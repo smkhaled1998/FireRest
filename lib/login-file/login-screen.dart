@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../register-file/register-screen.dart';
 import '../reusable-widgets/small-text.dart';
 import '../styles/app-colors.dart';
-import '../widgets/submit-button.dart';
-import '../widgets/text-form-feild.dart';
+import '../reusable-widgets/submit-button.dart';
+import '../reusable-widgets/text-form-feild.dart';
 import 'login-cubit.dart';
 import 'login-states.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../reusable-widgets/big-text.dart';
+import 'big-text.dart';
 import '../styles/app-colors.dart';
 
 class SubmitButton extends StatelessWidget {

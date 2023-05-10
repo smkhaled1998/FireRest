@@ -50,28 +50,30 @@ class _PageViewBodyState extends State<PageViewBody> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context)=>CategoryCubit(),
+      create: (context)=>CategoryCubit()..getCategory(),
       child: BlocConsumer<CategoryCubit,CategoryStates>(
       listener: (context,state){},
       builder: (context,state){
         var cubit = CategoryCubit.get(context);
+        print("Num is ${cubit.categories.length}");
+
         return Column(
           children: [
             Container(
               margin: const EdgeInsets.only(top: 12),
-              height: 207,
+              height: 210,
               child: PageView.builder(
                   controller: pageController,
-                  itemCount: 1,
+                  itemCount: cubit.categories.length,
                   itemBuilder: (context, position) {
                     print("Num is ${cubit.categories.length}");
                     return _buildPageItem(position,context);
                   }),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(height: 5,),
             SmoothPageIndicator(
                 controller: pageController,
-                count: 5,
+                count: cubit.categories.length,
                 effect: const ExpandingDotsEffect(
                     expansionFactor: 3, dotWidth: 10, dotHeight: 10)),
 
@@ -126,7 +128,7 @@ Matrix4 matrix =Matrix4.identity();
                   borderRadius: BorderRadius.circular(30),
                   image:  DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage(images[index])
+                      image:NetworkImage("${cubit.categories[index].img}")
                   )
 
               ),
@@ -158,8 +160,8 @@ Matrix4 matrix =Matrix4.identity();
                   ]
               ),
               child: Container(
-                  padding:  EdgeInsets.only(top: 15,left: 15,right: 15),
-                  child: Center(child: Text("\${cubit.categories[index].name}"))
+                  padding:  const EdgeInsets.all(15),
+                  child: Center(child: Text("${cubit.categories[index].name}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),),)
               ),
             ),
           ),

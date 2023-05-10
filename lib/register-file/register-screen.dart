@@ -4,8 +4,8 @@ import 'package:firerest/screens/home-layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../widgets/submit-button.dart';
-import '../widgets/text-form-feild.dart';
+import '../reusable-widgets/submit-button.dart';
+import '../reusable-widgets/text-form-feild.dart';
 
 
 class RegisterScreen extends StatelessWidget {

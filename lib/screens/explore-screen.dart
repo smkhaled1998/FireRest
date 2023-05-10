@@ -1,14 +1,11 @@
 import 'package:firerest/widgets/page-view-body.dart';
 import 'package:flutter/material.dart';
 
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../models/restaurant-model.dart';
 import '../styles/app-colors.dart';
 
-import '../widgets/explore-screen/category-list.dart';
 import '../widgets/explore-screen/food-list-view.dart';
-import '../widgets/explore-screen/rest-info.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
