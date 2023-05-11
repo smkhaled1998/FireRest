@@ -1,8 +1,7 @@
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firerest/category-file/category-cubit.dart';
+import 'package:firerest/category-file/home-cubit.dart';
 
-import 'package:firerest/items-file/item-cubit.dart';
 import 'package:firerest/screens/home-layout.dart';
 import 'package:firerest/shared/bloc-observer.dart';
 import 'package:firerest/shared/cashe-helper.dart';
@@ -10,7 +9,6 @@ import 'package:firerest/shared/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'login-file/login-screen.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,8 +30,7 @@ class MyApp extends StatelessWidget {
     ));
     return MultiBlocProvider(
       providers: [
-       BlocProvider(create: (context)=>ItemsCubit()),
-       BlocProvider(create: (context)=>CategoryCubit()..getCategory()),
+       BlocProvider(create: (context)=>HomeCubit()..getCategory()..getItems(categoryId: categoryId)),
       ],
       child: MaterialApp(
           theme: ThemeData(

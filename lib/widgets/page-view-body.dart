@@ -1,5 +1,6 @@
-import 'package:firerest/category-file/category-cubit.dart';
+import 'package:firerest/category-file/home-cubit.dart';
 import 'package:firerest/category-file/category-states.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,6 +8,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
 class PageViewBody extends StatefulWidget {
+
    PageViewBody({Key? key}) : super(key: key);
 
   @override
@@ -20,15 +22,7 @@ class _PageViewBodyState extends State<PageViewBody> {
   double currentPageValue=0;
   double height=20;
 
-  List <String> images=[
-    "assets/images/food0.png",
-    "assets/images/food1.png",
-    "assets/images/food11.png",
-    "assets/images/food12.png",
-    "assets/images/food13.png",
-    "assets/images/food14.png",
-    "assets/images/food15.png",
-  ];
+
 
   @override
   void initState(){
@@ -46,46 +40,42 @@ class _PageViewBodyState extends State<PageViewBody> {
     pageController.dispose();
   }
 
-  // @override
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context)=>CategoryCubit()..getCategory(),
-      child: BlocConsumer<CategoryCubit,CategoryStates>(
-      listener: (context,state){},
-      builder: (context,state){
-        var cubit = CategoryCubit.get(context);
-        print("Num is ${cubit.categories.length}");
+    return BlocConsumer<HomeCubit,HomeStates>(
+    listener: (context,state){},
+    builder: (context,state){
+      var cubit = HomeCubit.get(context);
 
-        return Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 12),
-              height: 210,
-              child: PageView.builder(
-                  controller: pageController,
-                  itemCount: cubit.categories.length,
-                  itemBuilder: (context, position) {
-                    print("Num is ${cubit.categories.length}");
-                    return _buildPageItem(position,context);
-                  }),
-            ),
-            const SizedBox(height: 5,),
-            SmoothPageIndicator(
+      return Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 12),
+            height: 210,
+            child: PageView.builder(
                 controller: pageController,
-                count: cubit.categories.length,
-                effect: const ExpandingDotsEffect(
-                    expansionFactor: 3, dotWidth: 10, dotHeight: 10)),
+                itemCount: cubit.categories.length,
+                itemBuilder: (context, position) {
+                  return _buildPageItem(position,context);
+                }),
+          ),
+          const SizedBox(height: 5,),
+          SmoothPageIndicator(
+              controller: pageController,
+              count: cubit.categories.length,
+              effect: const ExpandingDotsEffect(
+                  expansionFactor: 3, dotWidth: 10, dotHeight: 10)),
+          const SizedBox(height: 10,),
 
-          ],
-        );
-      },
-      ),
+
+        ],
+      );
+    },
     );
   }
 
   Widget _buildPageItem(int index,context){
-var cubit =CategoryCubit.get(context);
+var cubit =HomeCubit.get(context);
 Matrix4 matrix =Matrix4.identity();
 
     if(index==currentPageValue.floor()){

@@ -1,6 +1,4 @@
-import 'package:firerest/reusable-widgets/big-text.dart';
-import 'package:firerest/reusable-widgets/small-text.dart';
-import 'package:firerest/screens/card.dart';
+
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatelessWidget {
@@ -16,7 +14,7 @@ class CartScreen extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.only(bottom:20,left: 20,right:20),
-              child:CardWidget(cardText: "Taghreed",)
+              child:Text("Khaled")
             ),
           ],
         ),

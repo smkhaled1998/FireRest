@@ -1,7 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:firerest/category-file/category-cubit.dart';
+import 'package:firerest/category-file/home-cubit.dart';
 import 'package:firerest/category-file/category-states.dart';
-import 'package:firerest/items-file/items-screen.dart';
+import 'package:firerest/screens/items-screen.dart';
 import 'package:firerest/shared/const.dart';
 
 
@@ -19,256 +19,253 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CategoryCubit()..getCategory(),
-      child: BlocConsumer<CategoryCubit, CategoryStates>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            var cubit = CategoryCubit.get(context);
-            return Scaffold(
-              body: SafeArea(
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Categories", style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25),),
-                          MaterialButton(
-                            color: AppColor.mainColor,
-                            child: const Text ("Add new category"),
-                            onPressed: () {
-                              showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(20))
-                                  ),
-                                  context: context,
-                                  builder: (context) {
-                                    return Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery
-                                              .of(context)
-                                              .viewInsets
-                                              .bottom) / 3,
-                                      child: Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        height: 400,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                                20),
-                                            color: Colors.white
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .start,
-                                          children: [
-                                            const SizedBox(height: 15,),
-                                            Row(
-                                              children: [
-                                                Stack(
-                                                  children: [
-                                                    ClipRRect(
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        child: SizedBox(
-                                                          width: 100,
-                                                          height: 100,
-                                                          child: cubit
-                                                              .categoryImg ==
-                                                              null
-                                                              ? Image.asset(
-                                                              "assets/logo part 1.png",
-                                                              fit: BoxFit.cover)
-                                                              : Image(
-                                                            image: FileImage(
-                                                              cubit
-                                                                  .categoryImg!,),
-                                                            fit: BoxFit.cover,),
-                                                        )
-                                                    ),
-                                                    Align(
-                                                      alignment: Alignment
-                                                          .topRight,
-                                                      child: CircleAvatar(
-                                                          radius: 20,
-                                                          backgroundColor: Colors
-                                                              .transparent,
-                                                          child: IconButton(
-                                                              onPressed: () {
-                                                                cubit.pickImg();
-                                                              },
-                                                              icon: const Icon (
-                                                                Icons
-                                                                    .camera_alt,
-                                                                size: 15,))),
-                                                    ),
-
-                                                  ],
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                      margin: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 7),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius
-                                                              .circular(15)
-                                                      ),
-                                                      child: TextFormField(
-                                                        controller: categoryController,
-                                                        decoration: const InputDecoration(
-                                                            hintText: "Category Name"
-                                                        ),
+    return BlocConsumer<HomeCubit, HomeStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          var cubit = HomeCubit.get(context);
+          return Scaffold(
+            body: SafeArea(
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Categories", style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25),),
+                        MaterialButton(
+                          color: AppColor.mainColor,
+                          child: const Text ("Add new category"),
+                          onPressed: () {
+                            showModalBottomSheet(
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(20))
+                                ),
+                                context: context,
+                                builder: (context) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: MediaQuery
+                                            .of(context)
+                                            .viewInsets
+                                            .bottom) / 3,
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      height: 400,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              20),
+                                          color: Colors.white
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        children: [
+                                          const SizedBox(height: 15,),
+                                          Row(
+                                            children: [
+                                              Stack(
+                                                children: [
+                                                  ClipRRect(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      child: SizedBox(
+                                                        width: 100,
+                                                        height: 100,
+                                                        child: cubit
+                                                            .categoryImg ==
+                                                            null
+                                                            ? Image.asset(
+                                                            "assets/logo part 1.png",
+                                                            fit: BoxFit.cover)
+                                                            : Image(
+                                                          image: FileImage(
+                                                            cubit
+                                                                .categoryImg!,),
+                                                          fit: BoxFit.cover,),
                                                       )
                                                   ),
+                                                  Align(
+                                                    alignment: Alignment
+                                                        .topRight,
+                                                    child: CircleAvatar(
+                                                        radius: 20,
+                                                        backgroundColor: Colors
+                                                            .transparent,
+                                                        child: IconButton(
+                                                            onPressed: () {
+                                                              cubit.pickImg();
+                                                            },
+                                                            icon: const Icon (
+                                                              Icons
+                                                                  .camera_alt,
+                                                              size: 15,))),
+                                                  ),
+
+                                                ],
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 7),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius
+                                                            .circular(15)
+                                                    ),
+                                                    child: TextFormField(
+                                                      controller: categoryController,
+                                                      decoration: const InputDecoration(
+                                                          hintText: "Category Name"
+                                                      ),
+                                                    )
                                                 ),
-                                              ],
-                                            ),
-                                            MaterialButton(
-                                              color: AppColor.mainColor,
-                                              onPressed: () {
-                                                cubit.uploadCategoryImg(
-                                                    categoryName: categoryController.text
-                                                );
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text("Submit"),)
-                                          ],
-                                        ),
+                                              ),
+                                            ],
+                                          ),
+                                          MaterialButton(
+                                            color: AppColor.mainColor,
+                                            onPressed: () {
+                                              cubit.uploadCategoryImg(
+                                                  categoryName: categoryController.text
+                                              );
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("Submit"),)
+                                        ],
                                       ),
-                                    );
-                                  }).then((value) {
-                                cubit.categoryImg = null;
-                                categoryController.text = "";
-                              });
+                                    ),
+                                  );
+                                }).then((value) {
+                              cubit.categoryImg = null;
+                              categoryController.text = "";
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  Expanded(
+                    child: ConditionalBuilder(
+                      condition: state is CategoryGettingDataLoadingState,
+                      builder: (context) =>
+                      const Center(child: CircularProgressIndicator()),
+                      fallback: (context) =>
+                          RefreshIndicator(
+                            onRefresh: () async {
+                              cubit.getCategory();
                             },
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 10,),
-                    Expanded(
-                      child: ConditionalBuilder(
-                        condition: state is CategoryGettingDataLoadingState,
-                        builder: (context) =>
-                        const Center(child: CircularProgressIndicator()),
-                        fallback: (context) =>
-                            RefreshIndicator(
-                              onRefresh: () async {
-                                cubit.getCategory();
-                              },
-                              child: categoryList(context),
-                            ),
+                            child: categoryList(context),
+                          ),
 
-                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              // floatingActionButton: FloatingButton(
-              // text: "Add new category",
-              // callBack: (){
-              //   showModalBottomSheet(
-              //       isScrollControlled: true,
-              //       shape: const RoundedRectangleBorder(
-              //           borderRadius: BorderRadius.vertical(top: Radius.circular(20))
-              //       ),
-              //       context: context,
-              //       builder: (context){
-              //         return Padding(
-              //           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)/3,
-              //           child: Container(
-              //             margin: const EdgeInsets.symmetric(horizontal: 10),
-              //             height: 400,
-              //             decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.circular(20),
-              //                 color: Colors.white
-              //             ),
-              //             child: Column(
-              //               mainAxisAlignment: MainAxisAlignment.start,
-              //               children: [
-              //                 const SizedBox(height: 15,),
-              //                 Row(
-              //                   children: [
-              //                     Stack(
-              //                       children: [
-              //                         ClipOval(
-              //
-              //                             child: SizedBox(
-              //                               width: 100,
-              //                               height: 100,
-              //                               child: cubit.categoryImg == null
-              //                                   ? Image.asset(
-              //                                   "assets/logo part 1.png",
-              //                                   fit: BoxFit.cover)
-              //                                   : Image(image: FileImage(
-              //                                 cubit.categoryImg!,),fit: BoxFit.cover,),
-              //                             )
-              //                         ),
-              //
-              //                         Align(
-              //                           alignment: Alignment.topRight,
-              //                           child: CircleAvatar(
-              //                               radius: 20,
-              //                               backgroundColor: Colors.transparent,
-              //                               child: IconButton(
-              //                                   onPressed: () {
-              //                                     cubit.pickCategoryImg();
-              //                                   },
-              //                                   icon: const Icon (
-              //                                     Icons.camera_alt, size: 15,))),
-              //                         ),
-              //
-              //                       ],
-              //                     ),
-              //                     Expanded(
-              //                       child: Container(
-              //                           margin: const EdgeInsets.symmetric(horizontal: 7),
-              //                           decoration: BoxDecoration(
-              //                               borderRadius:BorderRadius.circular(15)
-              //                           ),
-              //                           child: TextFormField(
-              //                             controller: categoryController,
-              //                             decoration: const InputDecoration(
-              //                                 hintText: "Category Name"
-              //                             ),
-              //                           )
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //                 MaterialButton(
-              //                   color: AppColor.mainColor,
-              //                   onPressed: (){
-              //                     cubit.uploadCategoryImg(
-              //                         categoryName:categoryController.text
-              //                     );
-              //                     Navigator.pop(context);
-              //                   },
-              //                   child: const Text("Submit"),)
-              //               ],
-              //             ),
-              //           ),
-              //         );
-              //       }).then((value) {
-              //     cubit.categoryImg = null;
-              //     categoryController.text="";
-              //   });
-              // },),
-              // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            ),
+            // floatingActionButton: FloatingButton(
+            // text: "Add new category",
+            // callBack: (){
+            //   showModalBottomSheet(
+            //       isScrollControlled: true,
+            //       shape: const RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+            //       ),
+            //       context: context,
+            //       builder: (context){
+            //         return Padding(
+            //           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)/3,
+            //           child: Container(
+            //             margin: const EdgeInsets.symmetric(horizontal: 10),
+            //             height: 400,
+            //             decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(20),
+            //                 color: Colors.white
+            //             ),
+            //             child: Column(
+            //               mainAxisAlignment: MainAxisAlignment.start,
+            //               children: [
+            //                 const SizedBox(height: 15,),
+            //                 Row(
+            //                   children: [
+            //                     Stack(
+            //                       children: [
+            //                         ClipOval(
+            //
+            //                             child: SizedBox(
+            //                               width: 100,
+            //                               height: 100,
+            //                               child: cubit.categoryImg == null
+            //                                   ? Image.asset(
+            //                                   "assets/logo part 1.png",
+            //                                   fit: BoxFit.cover)
+            //                                   : Image(image: FileImage(
+            //                                 cubit.categoryImg!,),fit: BoxFit.cover,),
+            //                             )
+            //                         ),
+            //
+            //                         Align(
+            //                           alignment: Alignment.topRight,
+            //                           child: CircleAvatar(
+            //                               radius: 20,
+            //                               backgroundColor: Colors.transparent,
+            //                               child: IconButton(
+            //                                   onPressed: () {
+            //                                     cubit.pickCategoryImg();
+            //                                   },
+            //                                   icon: const Icon (
+            //                                     Icons.camera_alt, size: 15,))),
+            //                         ),
+            //
+            //                       ],
+            //                     ),
+            //                     Expanded(
+            //                       child: Container(
+            //                           margin: const EdgeInsets.symmetric(horizontal: 7),
+            //                           decoration: BoxDecoration(
+            //                               borderRadius:BorderRadius.circular(15)
+            //                           ),
+            //                           child: TextFormField(
+            //                             controller: categoryController,
+            //                             decoration: const InputDecoration(
+            //                                 hintText: "Category Name"
+            //                             ),
+            //                           )
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //                 MaterialButton(
+            //                   color: AppColor.mainColor,
+            //                   onPressed: (){
+            //                     cubit.uploadCategoryImg(
+            //                         categoryName:categoryController.text
+            //                     );
+            //                     Navigator.pop(context);
+            //                   },
+            //                   child: const Text("Submit"),)
+            //               ],
+            //             ),
+            //           ),
+            //         );
+            //       }).then((value) {
+            //     cubit.categoryImg = null;
+            //     categoryController.text="";
+            //   });
+            // },),
+            // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
-            );
-          }
-      ),
+          );
+        }
     );
   }
 
   Widget categoryList(context) {
-    var cubit = CategoryCubit.get(context);
+    var cubit = HomeCubit.get(context);
     return ListView.builder(
       itemCount: cubit.categories.length,
       itemBuilder: (context, index) =>

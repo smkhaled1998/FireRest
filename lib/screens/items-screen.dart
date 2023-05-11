@@ -1,7 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firerest/category-file/home-cubit.dart';
+import 'package:firerest/category-file/category-states.dart';
 
-import 'package:firerest/items-file/item-cubit.dart';
-import 'package:firerest/items-file/item-states.dart';
 import 'package:firerest/shared/const.dart';
 import 'package:firerest/styles/app-colors.dart';
 import 'package:flutter/material.dart';
@@ -21,202 +21,200 @@ class ItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context)=>ItemsCubit()..getItems(categoryId: categoryId),
-      child: BlocConsumer<ItemsCubit,ItemsStates>(
-        listener: (context,state){},
-        builder: (context,state){
-          var cubit =ItemsCubit.get(context);
-          return Scaffold(
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                            onPressed: (){
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(Icons.arrow_back_ios_new_outlined)),
-                        const Text("Items",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
-                        MaterialButton(
-                          color: AppColor.mainColor,
-                          child:const Text ("Add new item"),
+    return BlocConsumer<HomeCubit,HomeStates>(
+      listener: (context,state){},
+      builder: (context,state){
+        var cubit =HomeCubit.get(context);
+        return Scaffold(
+          body: SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
                           onPressed: (){
-                            showModalBottomSheet(
-                                isScrollControlled: true,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(top: Radius.circular(20))
-                                ),
-                                context: context,
-                                builder: (context){
-                                  return Padding(
-                                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom/3),
-                                    child: Container(
-                                      margin: const EdgeInsets.symmetric(horizontal: 10),
-                                      height: 400,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
-                                          color: Colors.white
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(height: 15,),
-                                          Row(
-                                            children: [
-                                              Stack(
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Icons.arrow_back_ios_new_outlined)),
+                      const Text("Items",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
+                      MaterialButton(
+                        color: AppColor.mainColor,
+                        child:const Text ("Add new item"),
+                        onPressed: (){
+                          showModalBottomSheet(
+                              isScrollControlled: true,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+                              ),
+                              context: context,
+                              builder: (context){
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom/3),
+                                  child: Container(
+                                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                                    height: 400,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.white
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(height: 15,),
+                                        Row(
+                                          children: [
+                                            Stack(
+                                              children: [
+                                                Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10)
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      child: cubit.itemImg == null
+                                                        ? Image.asset(
+                                                        "assets/logo part 1.png",
+                                                        fit: BoxFit.cover)
+                                                        : Image(image: FileImage(
+                                                      cubit.itemImg!,),fit: BoxFit.cover,),
+                                                    ),
+                                                ),
+                                                Align(
+                                                  alignment: Alignment.topRight,
+                                                  child: CircleAvatar(
+                                                      radius: 20,
+                                                      backgroundColor: Colors.transparent,
+                                                      child: IconButton(
+                                                          onPressed: () {
+                                                            cubit.pickImg();
+                                                          },
+                                                          icon: const Icon (
+                                                            Icons.camera_alt, size: 15,))),
+                                                ),
+
+                                              ],
+                                            ),
+                                            SizedBox(width: 5,),
+                                            Expanded(
+                                              child: Column(
                                                 children: [
                                                   Container(
-                                                      width: 100,
-                                                      height: 100,
+                                                      margin: const EdgeInsets.symmetric(horizontal: 7),
                                                       decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(10)
+                                                          borderRadius:BorderRadius.circular(15)
                                                       ),
-                                                      child: ClipRRect(
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        child: cubit.itemImg == null
-                                                          ? Image.asset(
-                                                          "assets/logo part 1.png",
-                                                          fit: BoxFit.cover)
-                                                          : Image(image: FileImage(
-                                                        cubit.itemImg!,),fit: BoxFit.cover,),
+                                                      child: TextFormField(
+                                                        controller: itemNameController,
+                                                        decoration: const InputDecoration(
+                                                            hintText: "Item Name"
+                                                        ),
+                                                      )
+                                                  ),
+                                                  Container(
+                                                      margin: const EdgeInsets.symmetric(horizontal: 7),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:BorderRadius.circular(15)
                                                       ),
+                                                      child: TextFormField(
+                                                        controller: itemPriceController,
+                                                        keyboardType: TextInputType.number,
+                                                        decoration: const InputDecoration(
+                                                            hintText: "Item Price"
+                                                        ),
+                                                      )
                                                   ),
-                                                  Align(
-                                                    alignment: Alignment.topRight,
-                                                    child: CircleAvatar(
-                                                        radius: 20,
-                                                        backgroundColor: Colors.transparent,
-                                                        child: IconButton(
-                                                            onPressed: () {
-                                                              cubit.pickImg();
-                                                            },
-                                                            icon: const Icon (
-                                                              Icons.camera_alt, size: 15,))),
-                                                  ),
-
                                                 ],
                                               ),
-                                              SizedBox(width: 5,),
-                                              Expanded(
-                                                child: Column(
-                                                  children: [
-                                                    Container(
-                                                        margin: const EdgeInsets.symmetric(horizontal: 7),
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:BorderRadius.circular(15)
-                                                        ),
-                                                        child: TextFormField(
-                                                          controller: itemNameController,
-                                                          decoration: const InputDecoration(
-                                                              hintText: "Item Name"
-                                                          ),
-                                                        )
-                                                    ),
-                                                    Container(
-                                                        margin: const EdgeInsets.symmetric(horizontal: 7),
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:BorderRadius.circular(15)
-                                                        ),
-                                                        child: TextFormField(
-                                                          controller: itemPriceController,
-                                                          keyboardType: TextInputType.number,
-                                                          decoration: const InputDecoration(
-                                                              hintText: "Item Price"
-                                                          ),
-                                                        )
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Container(
-                                            child: MaterialButton(
-                                              color: AppColor.mainColor,
-                                              onPressed: (){
-                                                cubit.uploadItemImg(
-                                                    itemName: itemNameController.text,
-                                                    itemDescription: itemDescriptionController.text,
-                                                    itemPrice: itemPriceController.text
-                                                );
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text("Submit"),),
-                                          ),
-                                          // Row(
-                                          //   children: [
-                                          //     Container(
-                                          //         margin: const EdgeInsets.symmetric(horizontal: 7),
-                                          //         decoration: BoxDecoration(
-                                          //             borderRadius:BorderRadius.circular(15)
-                                          //         ),
-                                          //         child: TextFormField(
-                                          //           controller: itemPriceController,
-                                          //           decoration: const InputDecoration(
-                                          //               hintText: "Item Name"
-                                          //           ),
-                                          //         )
-                                          //     ),
-                                          //     Container(
-                                          //         margin: const EdgeInsets.symmetric(horizontal: 7),
-                                          //         decoration: BoxDecoration(
-                                          //             borderRadius:BorderRadius.circular(15)
-                                          //         ),
-                                          //         child: TextFormField(
-                                          //           controller: itemDescriptionController,
-                                          //           decoration: const InputDecoration(
-                                          //               hintText: "Item Name"
-                                          //           ),
-                                          //         )
-                                          //     ),
-                                          //   ],
-                                          // ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          child: MaterialButton(
+                                            color: AppColor.mainColor,
+                                            onPressed: (){
+                                              cubit.uploadItemImg(
+                                                  itemName: itemNameController.text,
+                                                  itemDescription: itemDescriptionController.text,
+                                                  itemPrice: itemPriceController.text
+                                              );
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("Submit"),),
+                                        ),
+                                        // Row(
+                                        //   children: [
+                                        //     Container(
+                                        //         margin: const EdgeInsets.symmetric(horizontal: 7),
+                                        //         decoration: BoxDecoration(
+                                        //             borderRadius:BorderRadius.circular(15)
+                                        //         ),
+                                        //         child: TextFormField(
+                                        //           controller: itemPriceController,
+                                        //           decoration: const InputDecoration(
+                                        //               hintText: "Item Name"
+                                        //           ),
+                                        //         )
+                                        //     ),
+                                        //     Container(
+                                        //         margin: const EdgeInsets.symmetric(horizontal: 7),
+                                        //         decoration: BoxDecoration(
+                                        //             borderRadius:BorderRadius.circular(15)
+                                        //         ),
+                                        //         child: TextFormField(
+                                        //           controller: itemDescriptionController,
+                                        //           decoration: const InputDecoration(
+                                        //               hintText: "Item Name"
+                                        //           ),
+                                        //         )
+                                        //     ),
+                                        //   ],
+                                        // ),
 
-                                        ],
-                                      ),
+                                      ],
                                     ),
-                                  );
-                                }).then((value) {
-                              cubit.itemImg = null;
-                              itemNameController.text="";
-                              itemPriceController.text="";
-                            });
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  Expanded(
-                    child: ConditionalBuilder(
-                      condition: state is ItemsGettingDataLoadingState,
-                      builder: (context)=> const  Center(child: CircularProgressIndicator()),
-                      fallback: (context)=>RefreshIndicator (
-                        onRefresh: () async{
-                          cubit.getItems(categoryId: categoryId);
+                                  ),
+                                );
+                              }).then((value) {
+                            cubit.itemImg = null;
+                            itemNameController.text="";
+                            itemPriceController.text="";
+                          });
                         },
-                        child:itemList(context),
-                      ),
-
-                    ),
+                      )
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 10,),
+                Expanded(
+                  child:RefreshIndicator (
+                    onRefresh: () async{
+                      cubit.getItems(categoryId: categoryId);
+                    },
+                    child:itemList(context),
+                  ),
+                  // ConditionalBuilder(
+                  //   condition: state is ItemsGettingDataLoadingState,
+                  //   builder: (context)=> const  Center(child: CircularProgressIndicator()),
+                  //   fallback: (context)=>
+                  //
+                  // ),
+                ),
+              ],
             ),
-          );
-        },
+          ),
+        );
+      },
 
-      ),
     );
   }
 
   Widget itemList(context){
-    var cubit =ItemsCubit.get(context);
+    var cubit =HomeCubit.get(context);
     return  ListView.builder(
       itemCount: cubit.items.length,
       itemBuilder:(context,index)=> Slidable(
@@ -541,7 +539,7 @@ class ItemsScreen extends StatelessWidget {
 
   Widget buildBottomSheet(context,index){
 
-    var cubit=ItemsCubit.get(context);
+    var cubit=HomeCubit.get(context);
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom/3),
       child: Container(
