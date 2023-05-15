@@ -40,4 +40,5 @@ Color chooseToastColor(ToastStates state){
 
 
 
-String categoryId="Arabian food";
+String categoryId="";
+String categoryIndex="BBQ";

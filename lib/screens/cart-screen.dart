@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatelessWidget {
@@ -7,14 +6,32 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-
       child: Scaffold(
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              margin: EdgeInsets.only(bottom:20,left: 20,right:20),
-              child:Text("Khaled")
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.all(10),
+
+
+                width: double.infinity,
+                child: GridView.builder(
+                    padding: const EdgeInsets.only(top: 10, bottom: 20),
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        childAspectRatio: 3 / 4,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20),
+                    itemCount: 4,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.grey,
+                        ),
+                      );
+                    }),
+              ),
             ),
           ],
         ),

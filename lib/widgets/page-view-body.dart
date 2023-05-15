@@ -1,5 +1,6 @@
-import 'package:firerest/category-file/home-cubit.dart';
-import 'package:firerest/category-file/category-states.dart';
+
+import 'package:firerest/home-file/home-cubit.dart';
+import 'package:firerest/home-file/home-states.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -96,3 +96,8 @@ class ItemsDownLoadingUpdatedImgUrlErrorState extends HomeStates{}
 class ItemsDeleteDataLoadingState extends HomeStates{}
 class ItemsDeleteDataSuccessState extends HomeStates{}
 class ItemsDeleteDataErrorState extends HomeStates{}
+
+
+class ItemsIncreaseQuantityState extends HomeStates{}
+class ItemsDecreaseQuantityState extends HomeStates{}
+

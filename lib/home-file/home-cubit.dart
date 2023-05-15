@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firerest/category-file/category-screen.dart';
 
-import 'package:firerest/category-file/category-states.dart';
+import 'package:firerest/home-file/home-states.dart';
+import 'package:firerest/home-file/menu-screen.dart';
 import 'package:firerest/models/category-model.dart';
 import 'package:firerest/models/items-model.dart';
 import 'package:firerest/screens/cart-screen.dart';
@@ -20,8 +20,10 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class HomeCubit extends Cubit<HomeStates> {
 
-  final PageController pageController = PageController();
+  PageController categoryPageController = PageController(viewportFraction: .85);
+  PageController itemPageController = PageController();
   double currentPageValue = 0;
+
 
   List<Widget> screen = [
      ExploreScreen(),
@@ -30,23 +32,29 @@ class HomeCubit extends Cubit<HomeStates> {
   ];
 
   int currentIndex = 0;
+
   void changeBottomNavBar(int index) {
     currentIndex = index;
     emit(HomeChangeBottomNavBarState());
   }
 
-
-
-  HomeCubit() : super(HomeInitialState()){
-    pageController.addListener(() {
-      currentPageValue = pageController.page!;
-      emit(HomeInitiatePageViewState());
+  HomeCubit() : super(HomeInitialState())
+  {
+    categoryPageController.addListener(() {
+      currentPageValue = categoryPageController.page!;
     });
+    itemPageController.addListener(() {
+      currentPageValue = itemPageController.page!;
+    });
+    emit(HomeInitiatePageViewState());
+
   }
+
 
   @override
   Future<void> close() {
-    pageController.dispose();
+    categoryPageController.dispose();
+    itemPageController.dispose();
     return super.close();
   }
 
@@ -54,6 +62,7 @@ class HomeCubit extends Cubit<HomeStates> {
   static HomeCubit get(context) => BlocProvider.of<HomeCubit>(context);
 
   List<CategoryModel> categories = [];
+  List desiredItems=[];
   CategoryModel? categoryModel;
   void getCategory() {
     emit(CategoryGettingDataLoadingState());
@@ -65,6 +74,7 @@ class HomeCubit extends Cubit<HomeStates> {
       querySnapshot.docs.forEach((documentSnapshot) {
         categoryModel = CategoryModel.fromJson(documentSnapshot.data());
         categories.add(categoryModel!);
+
       });
 
       emit(CategoryGettingDataSuccessState());
@@ -230,13 +240,14 @@ class HomeCubit extends Cubit<HomeStates> {
         .get()
         .then((QuerySnapshot querySnapshot) {
       emit(CategoryGettingDataSuccessState());
+
       if (querySnapshot.size == 1) {
         String documentId = querySnapshot.docs[0].id;
         FirebaseFirestore.instance
             .collection("category")
             .doc(documentId)
             .delete()
-            .then((value) {
+            .then((value){
           emit(CategoryDeleteDataSuccessState());
         })
             .catchError((error){
@@ -249,11 +260,37 @@ class HomeCubit extends Cubit<HomeStates> {
         // or no documents with the specified name
       }
     });
-  }
+    FirebaseFirestore.instance
+        .collection("items")
+        .where("categoryId",isEqualTo: categoryName)
+        .get()
+        .then((QuerySnapshot itemsQuerySnapshot) {
+      emit(ItemsGettingDataSuccessState());
+      itemsQuerySnapshot.docs.forEach((itemDoc){
+        String itemDocumentId = itemDoc.id;
+        FirebaseFirestore.instance
+            .collection("items")
+            .doc(itemDocumentId)
+            .delete()
+            .then((value) {
+          emit(ItemsDeleteDataSuccessState());
+        })
+            .catchError((error){
+          print(error.toString());
+          emit(ItemsDeleteDataErrorState());
+        });
 
-  ///************Items********
+      });
+
+
+
+
+  });
+        }
+  ///************ Items ********
 
   List<ItemsModel> items = [];
+
   ItemsModel? itemsModel;
   void getItems({
     required String categoryId
@@ -277,6 +314,9 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
+
+
+  ///*************************
   var piker =ImagePicker();
   File? itemImg;
   void pickItemImg() async{
@@ -473,5 +513,26 @@ class HomeCubit extends Cubit<HomeStates> {
 
   }
 
-
+  Map productQuantity(products){
+    var quantity=Map();
+    products.forEach((product){
+      if (!product.contanisKey(product)){
+       quantity[product]=1;
+      } else {quantity[product]+=1;}
+    });
+    return quantity;
+  }
+  var itemQuantity=0;
+void editItemQuantity(String operation){
+  if(operation=="plus"){
+    itemQuantity= itemQuantity+1;
+    emit(ItemsIncreaseQuantityState());
+    print(itemQuantity);
+  }
+  else{
+    itemQuantity--;
+    emit(ItemsDecreaseQuantityState());
+    print(itemQuantity);
+  }
+}
 }
