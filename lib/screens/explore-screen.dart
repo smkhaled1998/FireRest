@@ -14,12 +14,12 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: kBackground,
       body: BlocProvider(
         create: (context)=>HomeCubit()..getItems(categoryId: categoryIndex)..getCategory(),
-        child: BlocConsumer<HomeCubit,HomeStates>(
-          listener: (context,state){},
+        child: BlocBuilder<HomeCubit,HomeStates>(
           builder: (context,state){
             var cubit = HomeCubit.get(context);
             return SafeArea(

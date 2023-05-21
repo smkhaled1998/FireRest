@@ -20,17 +20,23 @@ class CartScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 100,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.black
+                    GestureDetector(
+                      onTap: (){
+                        print("${cartItems.length}");
+                      },
+                      child: Container(
+                        width: 100,
+                        height: 30,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.black
+                        ),
+                        child: const Center(child: Text("Cart",style: TextStyle(color: Colors.white,fontWeight:FontWeight.bold,fontSize: 20),)),
                       ),
-                      child: const Center(child: Text("Cart",style: TextStyle(color: Colors.white,fontWeight:FontWeight.bold,fontSize: 20),)),
                     ),
                   ],
                 ),
+                SizedBox(height: 10,),
                 Expanded(
                   child: ListView.builder(
                       itemCount:cartItems.length,

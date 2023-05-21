@@ -5,7 +5,7 @@ import 'package:firerest/home-file/home-states.dart';
 import 'package:firerest/models/cart-model.dart';
 import 'package:firerest/models/items-model.dart';
 import 'package:firerest/shared/const.dart';
-import 'package:firerest/styles/app-colors.dart';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -91,20 +91,22 @@ class FoodItemsList extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: (){
-                              ItemsModel(
-                                addedToCart: true
-                              );
                               ItemsModel itemsModel= cubit.items[index];
                               String name ="${itemsModel.name}";
                               String img ="${itemsModel.img}";
                               String price ="${itemsModel.price}";
-                              itemsModel.addedToCart=true;
+                              cubit.addItemsToCart(name,img,price,index);
+                              CartModel cartModel = CartModel(name: name, img: img, price: price);
+                              cubit.toggleCartState(index);
+
+                              if(cartItems.contains(cartModel)){
+                                print("${cubit.items[index]} is exist" );
+                              } else {print("${cubit.items[index]} is not exist" );}
                               print(itemsModel.addedToCart);
-                              // cubit.toggleCartState();
-                              // cartItems[index].addedToCart = !(cartItems[index].addedToCart);
-                              cubit.addItemsToCart(name,img,price);
+
+                              // CacheHelper.saveData(key: "cartItemStatus", value: itemsModel.addedToCart);
                             },
-                            child: cubit.items[index].addedToCart!
+                            child: cartItems.contains(cubit.cartModelObj)
                                 ?Container(
                               padding: EdgeInsets.all(7),
                               decoration: BoxDecoration(

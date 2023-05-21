@@ -9,6 +9,7 @@ import 'package:firerest/models/items-model.dart';
 import 'package:firerest/screens/cart-screen.dart';
 import 'package:firerest/screens/explore-screen.dart';
 import 'package:firerest/screens/menu-screen.dart';
+import 'package:firerest/shared/cashe-helper.dart';
 import 'package:firerest/shared/const.dart';
 import 'package:flutter/material.dart';
 
@@ -290,7 +291,7 @@ class HomeCubit extends Cubit<HomeStates> {
   List<ItemsModel> items = [];
   ItemsModel? itemsModel;
   void getItems({
-    required String categoryId
+    required String categoryId,
   }) {
     emit(ItemsGettingDataLoadingState());
     FirebaseFirestore.instance
@@ -532,23 +533,28 @@ class HomeCubit extends Cubit<HomeStates> {
 //     print(itemQuantity);
 //   }
 // }
-
-  void addItemsToCart(name,img,price) {
+ CartModel? cartModelObj;
+  void addItemsToCart(name,img,price,index) {
     CartModel cartModel = CartModel(
         img: img,
         name: name,
         price:price,
     );
+    cartModelObj=cartModel;
     cartItems.add(cartModel);
     emit(CartAddItemSuccessState());
   }
-  void deleteItemsFromCart() {
-    emit(CartDeleteItemSuccessState());
-  }
+
 
   bool addedToCart=false;
-  void toggleCartState(){
-    addedToCart = !addedToCart;
+  void toggleCartState(index){
+    // addedToCart = !addedToCart;
+    items[index].addedToCart= !items[index].addedToCart!;
+    CacheHelper.saveData(key: "cartItemStatus", value: items[index].addedToCart);
+    // print(" ${items[index].addedToCart}");
+
+    emit(CartUpdateCartState());
+
   }
 
 }

@@ -1,11 +1,12 @@
 
-import 'package:firerest/shared/const.dart';
+
+import 'package:firerest/shared/cashe-helper.dart';
 
 class ItemsModel{
   String? img;
   String? name;
   String? price;
-  bool? addedToCart=false;
+  bool? addedToCart=CacheHelper.getData(key:"cartItemStatus");
   // String? description;
   String? category;
   ItemsModel({

@@ -103,4 +103,5 @@ class ItemsDecreaseQuantityState extends HomeStates{}
 
 class CartAddItemSuccessState extends HomeStates{}
 class CartDeleteItemSuccessState extends HomeStates{}
+class CartUpdateCartState extends HomeStates{}
 

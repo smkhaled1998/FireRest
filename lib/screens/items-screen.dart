@@ -22,12 +22,11 @@ class ItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return BlocProvider(
       create: (context)=>HomeCubit()..getItems(categoryId: categoryId),
-      child: BlocConsumer<HomeCubit,HomeStates>(
-        listener: (context,state){
-
-        },
+      child: BlocBuilder<HomeCubit,HomeStates>(
         builder: (context,state){
           var cubit =HomeCubit.get(context);
           return Scaffold(

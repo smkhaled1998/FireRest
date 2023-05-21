@@ -15,6 +15,7 @@ void main()async {
   Bloc.observer=MyBlocObserver();
   await Firebase.initializeApp();
   await CacheHelper.init();
+  CacheHelper.saveData(key: "cartItemStatus", value: false);
   runApp(const MyApp());
 }
 

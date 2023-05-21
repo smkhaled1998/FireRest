@@ -43,6 +43,6 @@ Color chooseToastColor(ToastStates state){
 String categoryId="";
 String categoryIndex="BBQ";
 
+bool cartStatus=false;
 final List<CartModel> cartItems = [];
-bool? cartStatus=false;
 
