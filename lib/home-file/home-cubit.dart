@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firerest/home-file/home-states.dart';
-import 'package:firerest/home-file/menu-screen.dart';
+import 'package:firerest/models/cart-model.dart';
 import 'package:firerest/models/category-model.dart';
 import 'package:firerest/models/items-model.dart';
 import 'package:firerest/screens/cart-screen.dart';
 import 'package:firerest/screens/explore-screen.dart';
+import 'package:firerest/screens/menu-screen.dart';
 import 'package:firerest/shared/const.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +63,6 @@ class HomeCubit extends Cubit<HomeStates> {
   static HomeCubit get(context) => BlocProvider.of<HomeCubit>(context);
 
   List<CategoryModel> categories = [];
-  List desiredItems=[];
   CategoryModel? categoryModel;
   void getCategory() {
     emit(CategoryGettingDataLoadingState());
@@ -74,9 +74,7 @@ class HomeCubit extends Cubit<HomeStates> {
       querySnapshot.docs.forEach((documentSnapshot) {
         categoryModel = CategoryModel.fromJson(documentSnapshot.data());
         categories.add(categoryModel!);
-
       });
-
       emit(CategoryGettingDataSuccessState());
     }).catchError((error) {
       print(error.toString());
@@ -290,7 +288,6 @@ class HomeCubit extends Cubit<HomeStates> {
   ///************ Items ********
 
   List<ItemsModel> items = [];
-
   ItemsModel? itemsModel;
   void getItems({
     required String categoryId
@@ -338,7 +335,7 @@ class HomeCubit extends Cubit<HomeStates> {
   void postItem({
     required String itemName,
     required String itemImg,
-    required String itemDescription,
+    // required String itemDescription,
     required String itemPrice,
 
   }) {
@@ -377,7 +374,7 @@ class HomeCubit extends Cubit<HomeStates> {
         postItem(
             itemName: itemName,
             itemImg: value,
-            itemDescription: itemDescription,
+            // itemDescription: itemDescription,
             itemPrice: itemPrice
         );
         emit(ItemsDownLoadingImgUrlSuccessState());
@@ -512,27 +509,46 @@ class HomeCubit extends Cubit<HomeStates> {
     }
 
   }
+///************************************************
+//   Map productQuantity(products){
+//     var quantity=Map();
+//     products.forEach((product){
+//       if (!product.contanisKey(product)){
+//        quantity[product]=1;
+//       } else {quantity[product]+=1;}
+//     });
+//     return quantity;
+//   }
+//   var itemQuantity=0;
+// void editItemQuantity(String operation){
+//   if(operation=="plus"){
+//     itemQuantity= itemQuantity+1;
+//     emit(ItemsIncreaseQuantityState());
+//     print(itemQuantity);
+//   }
+//   else{
+//     itemQuantity--;
+//     emit(ItemsDecreaseQuantityState());
+//     print(itemQuantity);
+//   }
+// }
 
-  Map productQuantity(products){
-    var quantity=Map();
-    products.forEach((product){
-      if (!product.contanisKey(product)){
-       quantity[product]=1;
-      } else {quantity[product]+=1;}
-    });
-    return quantity;
+  void addItemsToCart(name,img,price) {
+    CartModel cartModel = CartModel(
+        img: img,
+        name: name,
+        price:price,
+    );
+    cartItems.add(cartModel);
+    emit(CartAddItemSuccessState());
   }
-  var itemQuantity=0;
-void editItemQuantity(String operation){
-  if(operation=="plus"){
-    itemQuantity= itemQuantity+1;
-    emit(ItemsIncreaseQuantityState());
-    print(itemQuantity);
+  void deleteItemsFromCart() {
+    emit(CartDeleteItemSuccessState());
   }
-  else{
-    itemQuantity--;
-    emit(ItemsDecreaseQuantityState());
-    print(itemQuantity);
+
+  bool addedToCart=false;
+  void toggleCartState(){
+    addedToCart = !addedToCart;
   }
-}
+
 }

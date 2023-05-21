@@ -393,7 +393,7 @@ class MenuScreen extends StatelessWidget {
                     height: 100,
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage("${cubit.categories[index].img}"),
@@ -402,7 +402,7 @@ class MenuScreen extends StatelessWidget {
                   ),
                   Expanded(
                       child: Container(
-                        height: 87,
+                        height: 100,
                         decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(

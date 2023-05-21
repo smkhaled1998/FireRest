@@ -18,6 +18,7 @@ class HomeLayout extends StatelessWidget {
           backgroundColor: Colors.white,
           body: cubit.screen[cubit.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
+              selectedItemColor: Colors.black,
 
             onTap: (index){
                cubit.changeBottomNavBar(index);

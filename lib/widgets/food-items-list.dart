@@ -1,8 +1,9 @@
 
-import 'package:firerest/cart-file/cart-cubit.dart';
-import 'package:firerest/cart-file/cart-states.dart';
+
 import 'package:firerest/home-file/home-cubit.dart';
 import 'package:firerest/home-file/home-states.dart';
+import 'package:firerest/models/cart-model.dart';
+import 'package:firerest/models/items-model.dart';
 import 'package:firerest/shared/const.dart';
 import 'package:firerest/styles/app-colors.dart';
 
@@ -29,6 +30,7 @@ class FoodItemsList extends StatelessWidget {
       }
     );
   }
+
   Widget foodItem(context,index){
     var cubit = HomeCubit.get(context);
     return  Container(
@@ -40,7 +42,7 @@ class FoodItemsList extends StatelessWidget {
             height: 100,
             decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage("${cubit.items[index].img}"),
@@ -49,7 +51,7 @@ class FoodItemsList extends StatelessWidget {
           ),
           Expanded(
               child: Container(
-                height: 87,
+                height: 100,
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -59,8 +61,8 @@ class FoodItemsList extends StatelessWidget {
                     ],
                     color: Colors.white,
                     borderRadius: const BorderRadius.only(
-                        bottomRight: Radius.circular(20),
-                        topRight: Radius.circular(20))),
+                        bottomRight: Radius.circular(10),
+                        topRight: Radius.circular(10))),
                 child: Padding(
                   padding:
                   const EdgeInsets.only(left: 10,top: 5,bottom: 10,right: 10),
@@ -87,41 +89,40 @@ class FoodItemsList extends StatelessWidget {
                             style: const TextStyle(
                             ),
                           ),
-                          Container(
-                              child: cubit.itemQuantity==0
-                                  ? GestureDetector(
-                                onTap: (){
-                                  cubit.editItemQuantity("plus");
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(7),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(25),
-                                      color: AppColor.mainColor
-                                  ),
-                                  child: Text("Add to Cart",style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold),),
-                                ),
-                              )
-                                  : SizedBox(
-                                width: 65,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: (){
-                                        cubit.editItemQuantity("minus");
-                                      },
-                                      child: const Icon(Icons.remove,color: AppColor.signColor,),
-                                    ),
-                                    Text("${cubit.itemQuantity}"),
-                                    GestureDetector(
-                                        onTap: (){
-                                          cubit.editItemQuantity("plus");
-                                        },
-                                        child: const Icon(Icons.add,color: AppColor.signColor,size: 24,))
-                                  ],
-                                ),
-                              )
+                          GestureDetector(
+                            onTap: (){
+                              ItemsModel(
+                                addedToCart: true
+                              );
+                              ItemsModel itemsModel= cubit.items[index];
+                              String name ="${itemsModel.name}";
+                              String img ="${itemsModel.img}";
+                              String price ="${itemsModel.price}";
+                              itemsModel.addedToCart=true;
+                              print(itemsModel.addedToCart);
+                              // cubit.toggleCartState();
+                              // cartItems[index].addedToCart = !(cartItems[index].addedToCart);
+                              cubit.addItemsToCart(name,img,price);
+                            },
+                            child: cubit.items[index].addedToCart!
+                                ?Container(
+                              padding: EdgeInsets.all(7),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: Colors.black
+                              ),
+
+                              child:
+                              const Text("Remove from Cart",style: TextStyle(color:Colors.white,fontSize: 11,fontWeight: FontWeight.bold),),
+                            )
+                                : Container(
+                              padding: EdgeInsets.all(7),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Colors.black
+                  ),
+                  child: const Text("Add to Cart",style: TextStyle(color:Colors.white,fontSize: 11,fontWeight: FontWeight.bold),),
+                )
                           )
                         ],
                       ),
@@ -134,4 +135,6 @@ class FoodItemsList extends StatelessWidget {
       ),
     );
   }
+
+
 }

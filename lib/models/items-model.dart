@@ -1,13 +1,18 @@
+
+import 'package:firerest/shared/const.dart';
+
 class ItemsModel{
   String? img;
   String? name;
   String? price;
+  bool? addedToCart=false;
   // String? description;
   String? category;
   ItemsModel({
     this.img,
     this.name,
     this.price,
+    this.addedToCart,
     // this.description,
   this.category});
   ItemsModel.fromJson(Map<String,dynamic> json){

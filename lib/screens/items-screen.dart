@@ -25,7 +25,9 @@ class ItemsScreen extends StatelessWidget {
     return BlocProvider(
       create: (context)=>HomeCubit()..getItems(categoryId: categoryId),
       child: BlocConsumer<HomeCubit,HomeStates>(
-        listener: (context,state){},
+        listener: (context,state){
+
+        },
         builder: (context,state){
           var cubit =HomeCubit.get(context);
           return Scaffold(
@@ -413,7 +415,7 @@ class ItemsScreen extends StatelessWidget {
                 height:100,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
                     image:  DecorationImage(
                       fit: BoxFit.cover,
                       image:NetworkImage("${cubit.items[index].img}"),
@@ -423,7 +425,7 @@ class ItemsScreen extends StatelessWidget {
               ),
               Expanded(
                   child: Container(
-                    height: 87,
+                    height: 100,
                     decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -552,128 +554,5 @@ class ItemsScreen extends StatelessWidget {
 
     );
   }
-
-  Widget buildBottomSheet(context,index){
-
-    var cubit=HomeCubit.get(context);
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom/3),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-        height: 400,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(height: 15,),
-            Row(
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: cubit.itemImg == null
-                            ? Image(image: NetworkImage("${cubit.items[index].img}"),fit: BoxFit.cover,)
-                            : Image(image: FileImage(
-                          cubit.itemImg!,),fit: BoxFit.cover,),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: CircleAvatar(
-                          radius: 20,
-                          backgroundColor: Colors.transparent,
-                          child: IconButton(
-                              onPressed: () {
-                                cubit.pickImg();
-                              },
-                              icon: const Icon (
-                                Icons.camera_alt, size: 15,))),
-                    ),
-
-                  ],
-                ),
-                const SizedBox(width: 10,),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 7),
-                          decoration: BoxDecoration(
-                              borderRadius:BorderRadius.circular(15)
-                          ),
-                          child: TextFormField(
-                            controller: itemUpdatedNameController,
-                            decoration: const InputDecoration(
-                                hintText: "Item Name"
-                            ),
-                          )
-                      ),
-                      // Container(
-                      //     margin: const EdgeInsets.symmetric(horizontal: 7),
-                      //     decoration: BoxDecoration(
-                      //         borderRadius:BorderRadius.circular(15)
-                      //     ),
-                      //     child: TextFormField(
-                      //       controller: itemUpdatedDescriptionController,
-                      //       decoration: const InputDecoration(
-                      //           hintText: "Item Description"
-                      //       ),
-                      //     )
-                      // ),
-                      Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 7),
-                          decoration: BoxDecoration(
-                              borderRadius:BorderRadius.circular(15)
-                          ),
-                          child: TextFormField(
-                            controller: itemUpdatedPriceController,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                                hintText: "Item Price"
-                            ),
-                          )
-                      ),
-                      const SizedBox(height: 10,),
-                      Container(
-                        width: double.infinity,
-                        child: MaterialButton(
-                          color: AppColor.mainColor,
-                          onPressed: (){
-                            if(itemUpdatedNameController.text == "" &&itemPriceController.text==""){
-                              cubit.uploadUpdatedItemImg(
-                                index: index,
-                                itemName:"${cubit.items[index].name}",
-                                // itemUpdatedDescription: itemUpdatedDescriptionController.text,
-                              );
-                            }
-                            // if(){}
-
-
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Submit"),),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
 
 }
